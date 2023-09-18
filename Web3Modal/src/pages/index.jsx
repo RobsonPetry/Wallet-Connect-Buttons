@@ -1,19 +1,21 @@
 import { Web3Button, Web3NetworkSwitch } from "@web3modal/react";
 import CustomButton from "../components/CustomButton";
+import ChatComponent from "../components/ChatComponent";
 
 export default function HomePage() {
   return (
     <>
-      {/* Predefined button  */}
+      {/* Predefined button  
       <Web3Button icon="hide" label="Connect Wallet" balance="show" />
       <br />
 
-      {/* Network Switcher Button */}
+      {/* Network Switcher Button 
       <Web3NetworkSwitch />
       <br />
+      */}
 
       {/* Custom button */}
-      <CustomButton />
+      <ChatComponent />
     </>
   );
 }
