@@ -1,7 +1,669 @@
-#__next {
+/* CSS Global */
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #ffffff; /* Cor de fundo para a página */
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+.web3buttonGridDesk {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+.web3buttonGridMob {
+  display: none;
+}
+.container {
+  background-color: #ffffff;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0px;
+  border-radius: 0px;
+  box-shadow: 0 8px 16px rgba(0, 0, 255, 0.2); 
+  text-align: center;
+}
+
+/* Estilos para o cabeçalho */
+h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Estilos para os parágrafos */
+p {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+/* Estilos para o input */
+input {
+  padding: 12px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Estilos para os botões */
+.button {
+  background-color: #007bff; /* Azul suave para os botões */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 12px 24px;
+  font-size: 18px;
+  cursor: pointer;
+  margin-right: 10px;
+  margin-top: 10px;
+  transition: background-color 0.3s; /* Adiciona uma transição suave */
+}
+
+.button:hover {
+  background-color: #0056b3; /* Cor mais escura ao passar o mouse */
+}
+video {
+  position: fixed;
+  object-fit: cover;
+  width: 100%;
+}
+.main {
+  z-index: -1;
+  width: 100%;
+}
+/* Estilos específicos para elementos */
+.app-title {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.account-text {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+/* Estilos para dispositivos móveis */
+@media (max-width: 768px) {
+  .container {
+    padding: 5px;
+  }
+  h1 {
+    font-size: 24px;
+  }
+  p {
+    font-size: 16px;
+  }
+  input {
+    font-size: 14px;
+  }
+  button {
+    font-size: 16px;
+    padding: 10px 20px;
+    margin-right: 10px;
+  }
+  .button.withdraw-all {
+    margin-right: 20px;
+    margin-top: 10px;
+  }
+}
+.header{
+  background-image: url("/header.png");
+  background-size: cover; /* Isso fará com que a imagem cubra toda a área do cabeçalho */
+    background-repeat: no-repeat; /* Isso previne que a imagem seja repetida */
+    height: 100px; /* Defina a altura que você quer para o seu cabeçalho */
+    width: 100%; /* Isso fará com que o cabeçalho tenha a largura total da página */
+    position: relative;
+    display: flex;
+    align-items: center; /* Isso é usado para centralizar os itens verticalmente */
+    justify-content: center; /* Centraliza o conteúdo horizontalmente */
+  
+  
+}
+.logo {
+  position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 150px; /* Ajuste conforme necessário */
+    height: 80px; /* Ajuste conforme necessário */
+    background-image: url("/logoMove.png"); /* Caminho relativo ao diretório "public" */
+    background-size: contain; /* Garante que o logo seja redimensionado para caber na div */
+    background-repeat: no-repeat; /* Evita que a imagem seja repetida dentro da div */
+}
+.menu {
+  display: flex; /* Isso é usado para dispor os elementos do menu horizontalmente */
+  gap: 40px; /* Isso é usado para adicionar algum espaço entre os itens do menu */
+}
+
+.menu a {
+  text-decoration: none; /* Isso é usado para remover o sublinhado dos links */
+  color: #14212B; /* Isso é usado para definir a cor do texto dos links */
+  font-size: 16px; /* Isso é usado para definir o tamanho da fonte dos links */
+  position: relative; /* Adicionado para posicionar o pseudo-elemento em relação a este elemento */
+  padding-bottom: 5px; /* Espaço adicional na parte inferior para a linha */
+  transition: color 0.3s; /* Adicionado para uma transição suave da cor */
+}
+/* Pseudo-elemento para a linha animada */
+.menu a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0; /* Inicialmente a largura é 0 */
+  height: 2px; /* Espessura da linha */
+  background-color: #1F9663; /* Cor da linha */
+  transition: width 0.3s; /* Transição da largura para a animação */
+}
+
+/* Estilize o pseudo-elemento quando o mouse estiver sobre o link */
+.menu a:hover::after {
+  width: 100%; /* A largura se torna 100% quando o mouse estiver sobre, criando a animação */
+}
+
+.staking{
+  position: absolute;
+  top: 20%;
+  left: 10%;
+  width: 90px; /* Ajuste conforme necessário */
+  height: 80px; /* Ajuste conforme necessário */
+  background-image: url("/staking.png"); /* Caminho relativo ao diretório "public" */
+  background-size: contain; /* Garante que o logo seja redimensionado para caber na div */
+  background-repeat: no-repeat; /* Evita que a imagem seja repetida dentro da div */
+}
+@keyframes balancar {
+  0% {
+    transform: rotate(-5deg);
+  }
+  5% {transform: rotate(5deg);
+  }
+  10% {transform: rotate(-5deg);
+  }
+  15% {transform: rotate(0);
+  }
+  100% {transform: rotate(0);
+  }
+}
+.NFT{
+  background-color: transparent;
+  position: absolute;
+  top: 27%;
+  left: 10%;
+  width: 70px; /* Ajuste conforme necessário */
+  height: 70px; /* Ajuste conforme necessário */
+  background-image: url("/box01.png"); /* Caminho relativo ao diretório "public" */
+  background-size: contain; /* Garante que o logo seja redimensionado para caber na div */
+  background-repeat: no-repeat; /* Evita que a imagem seja repetida dentro da div */
+  border-width: 0px;
+  animation: balancar 3s infinite alternate;
+  cursor: pointer;
+}
+.moveStaking{
+  width: 350px; /* Ajuste conforme necessário */
+  height: 30px; /* Ajuste conforme necessário */
+  text-align: center;
+  font-size: 24px;
   display: flex;
+  gap: 5px;
+}
+.moveStakingIcon{
+    width: 30px; /* Ajuste conforme necessário */
+    height: 30px; /* Ajuste conforme necessário */
+    background-image: url("/logoIcon.png"); /* Caminho relativo ao diretório "public" */
+    background-size: contain; /* Garante que o logo seja redimensionado para caber na div */
+    background-repeat: no-repeat; /* Evita que a imagem seja repetida dentro da div */
+}
+.stakingPanel {  
+  width: 400px;
+  height: 250px;
+  background-color: #ffffff; /* Cor de fundo para o quadrado */
+  border-radius: 20px; /* Arredonda os cantos do quadrado */
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15); /* Adiciona uma sombra ao redor do quadrado */
+  display: flex;
+  align-items: left; 
+  justify-content: center; 
+  font-size: 24px; /* Define o tamanho da fonte para o texto dentro do quadrado */
+  text-align: center; /* Centraliza o texto horizontalmente dentro do quadrado */
   flex-direction: column;
+  padding: 20px;
+}
+.line{
+  position: absolute;
+  top: 30%;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.boxesLine{  
+  position: absolute;
+  top: 40%;
+  display: flex;
+  width: 100%;
+  gap: 15px;
+  padding-left: 10%;
+}
+.boxesViertical{  
+  display: flex;
+  flex-direction: column; /* Define a direção do flex para coluna */
+  align-items: center; /* Alinha os itens no centro ao longo do eixo transversal */
+  gap: 15px;
+}
+.totalStaked{
+  width: 400px;
+  height: 135px;
+  background-color: #EFF2FA; /* Cor de fundo para o quadrado */
+  border-radius: 20px; /* Arredonda os cantos do quadrado */
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15); /* Adiciona uma sombra ao redor do quadrado */
+  display: flex;
+  font-size: 24px; /* Define o tamanho da fonte para o texto dentro do quadrado */
+  text-align: left; /* Centraliza o texto horizontalmente dentro do quadrado */
+  padding: 20px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.horizontal{
+  width: 800px;
+  height: 135px;
+  display: flex;
+  align-items: center; 
+  gap: 15px;
+}
+.estimatedRewards{
+  width: 400px;
+  height: 135px;
+  background-color: #1F9663; /* Cor de fundo para o quadrado */
+  border-radius: 20px; /* Arredonda os cantos do quadrado */
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15); /* Adiciona uma sombra ao redor do quadrado */
+  display: flex;
+  font-size: 24px; /* Define o tamanho da fonte para o texto dentro do quadrado */
+  padding: 20px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+  .moveStatus{
+  width: 800px;
+  height: 100px;
+  background-color: #EFF2FA; /* Cor de fundo para o quadrado */
+  border-radius: 20px; /* Arredonda os cantos do quadrado */
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15); /* Adiciona uma sombra ao redor do quadrado */
+  display: flex;
+  align-items: left; 
+  justify-content: center; 
+  font-size: 24px; /* Define o tamanho da fonte para o texto dentro do quadrado */
+  text-align: center; /* Centraliza o texto horizontalmente dentro do quadrado */
+  flex-direction: column;
+  padding: 12px;
+}
+ .textoEspacoTexto {
+  display: flex;
+  justify-content:space-between; /* Ajustado para flex-start */
+  width: 100%;
+  height: 30px;
+  padding:3px;  
+}
+.tokenIcon{
+  background-image: url("/logoIcon.png");
+  background-size: cover; 
+  height: 20px;
+  width: 32px;
+  margin-right: 10px;
+}
+
+ .stake {
+  background-color: #1F9663;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  margin-top: auto; /* Empurra o botão para a parte inferior */
+  border-radius: 4px;
+  width: 100%;
+  transition: background-color 0.3s, color 0.3s; /* Adiciona uma transição suave entre os estados */
+  cursor: pointer;
+}
+.stakingPanel .withdraw {
+  background-color: transparent;
+  border: none;
+  color: #1F9663;
+  margin-top: auto; /* Empurra o botão para a parte inferior */
+  width: 100%;
+  cursor: pointer;
+}
+.stakingPanel .withdraw:hover {
+  color: #117d4f; /* Um tom ligeiramente diferente para o texto */
+}
+.stakingPanel .stake:hover {
+  background-color: #0F7553; /* Uma tonalidade mais escura para o background */
+  color: #f0f0f0; /* Um tom ligeiramente diferente para o texto */
+}
+.title{
+  font-size: 25px;
+  width: 100%;
+  height: 35px;
+  text-align: left;
+}
+.title2{
+  font-size: 15px;
+  height: 20px;
+  text-align: left;
+}
+.wallet{
+  background-color: #bebebe;
+  font-size: 15px;
+  width: 60%;
+  height: 22px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: flex-start;   /* Alinha horizontalmente à direita */
+  align-items: center; 
+  padding: 5px;
+}
+.value{
+  font-size: 13px;
+  text-align: left;
+}
+.info{
+  color: #9b9b9b;
+  font-size: 13px;
+  text-align: left;
+}
+.textA{
+  color: #646E77;
+  font-size: 20px;
+  width: 100%;
+  height: 70px;
+  text-align: left;
+}
+.textB{
+  font-size: 25px;
+  width: 100%;
+  height: 85px;
+  text-align: left;
+}
+.textC{
+  color: #646E77;
+  font-size: 10px;
+  width: 100%;
+  height: 20px;
+  text-align: left;
+}
+
+.textD{
+  color: #B8FFAC;
+  font-size: 18px;
+  width: 100%;
+  height: 70px;
+  text-align: left;
+}
+.textE{
+  font-size: 27px;
+  width: 100%;
+  height: 85px;
+  text-align: left;
+}
+.textF{
+  color: #B8FFAC;
+  font-size: 18px;
+  width: 100%;
+  height: 20px;
+  text-align: left;
+}
+.textG{
+  color: #646E77;
+  font-size: 15px;
+  text-align: left;
+}
+.textH{
+  color: #111111;
+  font-size: 15px;
+  text-align: left;
+}
+.textI{
+  color: #646E77;
+  font-size: 20px;
+  text-align: left;
+}
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 250px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  border-radius: 10px;
+}
+
+ .closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;  
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  z-index: 1000;
 }
+.boxBorder{
+  width: 100%;
+  height: 70px;
+  border-radius: 8px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #979797;
+  padding: 10px;
+}
+.popup .stakeButton {
+  background-color: #1F9663;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  margin-top: auto; /* Empurra o botão para a parte inferior */
+  border-radius: 4px;
+  width: 100%;
+  transition: background-color 0.3s, color 0.3s; /* Adiciona uma transição suave entre os estados */
+  cursor: pointer;
+}
+
+.popup .stakeButton:hover {
+  background-color: #0F7553; /* Uma tonalidade mais escura para o background */
+  color: #f0f0f0; /* Um tom ligeiramente diferente para o texto */
+}
+
+/*swap*/
+.buttonSwap-selected {
+  background-color: #1F9663;
+  border: none;
+  color: white;
+  padding: 10px 5px;
+  margin-top: auto; /* Empurra o botão para a parte inferior */
+  border-radius: 4px;
+  width: 80px;
+  transition: background-color 0.3s, color 0.3s; /* Adiciona uma transição suave entre os estados */
+  cursor: pointer;
+}
+.buttonSwap {
+  border: none;
+  color: #0b613c; /* Define a cor do texto para ser a mesma que a do fundo */
+  padding: 10px 5px;
+  margin-top: auto; /* Empurra o botão para a parte inferior */
+  border-radius: 4px;
+  width: 80px;
+  transition: background-color 0.3s, color 0.3s; /* Adiciona uma transição suave entre os estados */
+  cursor: pointer;
+  position: relative; /* Adiciona uma posição relativa para posicionar o pseudoelemento corretamente */
+  font-weight: bold;
+}
+.collect {
+  border: none;
+  color:  white;
+  background-color: #0b613c; /* Define a cor do texto para ser a mesma que a do fundo */
+  padding: 10px 5px;
+  margin-top: auto; /* Empurra o botão para a parte inferior */
+  border-radius: 4px;
+  width: 80px;
+  height: 60px;
+  cursor: pointer;
+  position: absolute; /* Adiciona uma posição relativa para posicionar o pseudoelemento corretamente */
+  right: 25px; /* Posiciona o botão no lado esquerdo */
+  bottom: 18px; /* Define a distância do botão ao fundo */
+  padding: 0%;
+}
+.infos{  
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  padding: 0%;
+}
+.popup2 {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 350px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  border-radius: 10px;
+  overflow-y: auto;
+}
+.videoTeste {
+  position: relative;
+  width: 100%;
+  height: 200px;  
+  object-fit: cover;
+  overflow: hidden; /* isso esconde qualquer parte do vídeo que ultrapasse os limites da div */
+}
+
+.videoTeste video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: auto;
+}
+
+.buttonSwap::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px; /* Altura da "barrinha" */
+  background-color: #0b613c; /* Cor da "barrinha" */
+}
+.horixontalCentralized{  
+  position: absolute;
+  top: 40%;
+  display: flex;
+  width: 100%;
+  gap: 15px;
+  display: flex;
+  align-items: center; /* Isso é usado para centralizar os itens verticalmente */
+  justify-content: center; /* Isso é usado para centralizar os itens horixontalmente */
+}
+.horixontalCentralized2{  
+  position: absolute;
+  top: 30%;
+  display: flex;
+  width: 100%;
+  gap: 15px;
+  display: flex;
+  align-items: center; /* Isso é usado para centralizar os itens verticalmente */
+  justify-content: center; /* Isso é usado para centralizar os itens horixontalmente */
+}
+.maxBtn{
+  border-radius: 5px;
+  width: 25%;
+}
+.box {  
+  width: 400px;
+  height: 250px;
+  background-color: #ffffff; /* Cor de fundo para o quadrado */
+  border-radius: 20px; /* Arredonda os cantos do quadrado */
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15); /* Adiciona uma sombra ao redor do quadrado */
+  display: flex;
+  align-items: left; 
+  justify-content: flex-start; /* Isso é usado para centralizar os itens verticalmente */
+  font-size: 24px; /* Define o tamanho da fonte para o texto dentro do quadrado */
+  text-align: center; /* Centraliza o texto horizontalmente dentro do quadrado */
+  flex-direction: column;
+  padding: 20px;
+  padding-top: 5px;
+}
+.box input {
+  padding: 10px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+@media (max-width: 800px) {
+  .NFT{
+    top: 17%;
+    left: auto;
+    right: 20%;
+  }
+  .boxesLine{  
+    flex-direction: column;
+    align-items: center;
+  }
+  .horixontalCentralized{
+    flex-direction: column;
+    align-items: center;
+    top: 20%;
+  }
+  .totalStaked{
+    width: 200px;
+  }.estimatedRewards{
+    width: 200px;
+  }.moveStatus{
+    width: 400px;
+  }.horizontal{
+    width: 100%;
+  }.boxesLine{  
+    padding-left: 3%;
+  }
+  .menu{
+    display: none;
+  }
+  .web3buttonGridDesk {
+  display: none;  
+}
+.web3buttonGridMob {
+display:block;  
+position: absolute;
+top: 20px;
+right: 20px;
+}
+}
+

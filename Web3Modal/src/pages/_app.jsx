@@ -6,7 +6,7 @@ import {
 import { Web3Modal } from "@web3modal/react";
 import { useEffect, useState } from "react";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import { mainnet, optimism, polygon } from "wagmi/chains";
+import { bsc } from "wagmi/chains";
 import "../styles.css";
 
 // 1. Get projectID at https://cloud.walletconnect.com
@@ -14,9 +14,8 @@ if (!process.env.NEXT_PUBLIC_PROJECT_ID) {
   throw new Error("You need to provide NEXT_PUBLIC_PROJECT_ID env variable");
 }
 const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
-
 // 2. Configure wagmi client
-const chains = [mainnet, polygon, optimism];
+const chains = [bsc];
 
 const { publicClient } = configureChains(chains, [w3mProvider({ projectId })]);
 const wagmiConfig = createConfig({
@@ -36,6 +35,9 @@ export default function App({ Component, pageProps }) {
     setReady(true);
   }, []);
 
+  const tokenAddress = "0x95Ca12cd249D27008a482009e101a8501cf3a64f";
+  const token = { 56: tokenAddress };
+  const tokenIMG = { bsc: "logo.png" };
   return (
     <>
       {ready ? (
@@ -44,7 +46,13 @@ export default function App({ Component, pageProps }) {
         </WagmiConfig>
       ) : null}
 
-      <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
+      <Web3Modal
+        defaultChain={bsc}
+        projectId={projectId}
+        ethereumClient={ethereumClient}
+        tokenContracts={token}
+        tokenImages={tokenIMG}
+       />
     </>
   );
 }

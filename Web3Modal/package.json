@@ -3,7 +3,9 @@
   "private": true,
   "version": "2.6.2",
   "scripts": {
-    "dev": "next dev"
+    "dev": "next dev",
+    "build": "next build",
+    "export": "next build && next export"
   },
   "dependencies": {
     "@web3modal/ethereum": "2.6.2",
