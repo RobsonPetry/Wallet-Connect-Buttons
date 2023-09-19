@@ -409,7 +409,7 @@ const StakingFront = () => {
                         Discover the thrill of opening our <strong>Mystery Boxes</strong>, available in three exclusive tiers, based on the number of tokens you have:
                       </p>
                       <ul style={{ paddingLeft: '20px', color: '#555' }}>
-                        <li>🔘 <strong>Common</strong> (between 100.000 and 400.000 tokens)</li>
+                        <li>🔘 <strong>Common</strong> (between 100.000 and 200.000 tokens)</li>
                         <li>🔴 <strong>Rare</strong> (between 200.000 and 400.000 tokens)</li>
                         <li>🟠 <strong>Legendary</strong> (between 400.000 and 1.000.000 tokens)</li>
                         <li>🟠🔴 <strong>Legendary+Rare</strong> (more than 1.000.000 tokens)</li>
