@@ -166,6 +166,7 @@ const StakingFront = () => {
         const t = await contract.methods.totalstakedAmount().call();
         setTotalStaked(web3.utils.fromWei(t, 'ether'));
         const lockTime = await contract.methods.remainLockTime(currentAccount).call();
+        console.log("updateData lockTime "+lockTime);
         setRemainingLockTime(lockTime);
     
         const pendingRewardsWei = await contract.methods.pendingReward(currentAccount).call();
@@ -409,9 +410,10 @@ const StakingFront = () => {
                         Discover the thrill of opening our <strong>Mystery Boxes</strong>, available in three exclusive tiers, based on the number of tokens you have:
                       </p>
                       <ul style={{ paddingLeft: '20px', color: '#555' }}>
-                        <li>🔘 <strong>Common</strong> (less than 200,000 tokens) - 500 units available</li>
+                        <li>🔘 <strong>Common</strong> (between 100.000 and 200,000 tokens)</li>
                         <li>🔴 <strong>Rare</strong> (between 200,000 and 400,000 tokens)</li>
-                        <li>🟠 <strong>Legendary</strong> (more than 400,000 tokens)</li>
+                        <li>🟠 <strong>Legendary</strong> (between 400,000 and 1000,000 tokens)</li>
+                        <li>🟠🔴 <strong>Legendary+Rare</strong> (more than 1000,000 tokens)</li>
                       </ul>
                       <p style={{ fontWeight: 'bold', color: '#555' }}>
                         💎 What can you win?
@@ -443,32 +445,40 @@ const StakingFront = () => {
                     <div className="videoTeste">
                     <video 
                       onClick={(e) => e.currentTarget.play()} 
-                      autoplay 
+                      autoplay="true" 
                       loop 
                       muted 
                       playsinline 
                       preload="auto"
                     >
-                        <source src="https://move-app.com/video/presalebg.webm" type="video/webm" /> {/* Note o "/" no final */}
+                        <source src="https://move-app.com/video/stakeNft.mp4" type="video/mp4" /> {/* Note o "/" no final */}
                         Seu navegador não suporta o elemento de vídeo.
                       </video>
                     </div>
                     <div style={{ height: '30px' }}></div>
-                    {userAmount>=400000&&(
-                        <span className="textG" style={{color:"#FFD700"}}>You have {formatNumber(userAmount)} [LEGENDARY]</span>
+                    {userAmount>=1000000&&(
+                        <span className="textG" style={{color:"#FFD700"}}>You have {formatNumber(userAmount)} [LEGENDARY+RARE]</span>
                     )}
+                    {userAmount<1000000&& userAmount>=400000 ?(
+                        <span className="textG" style={{color:"#FFD700"}}>You have {formatNumber(userAmount)} [LEGENDARY]</span>
+                    ):null}
                     {userAmount<400000 && userAmount>=200000 ?
                     (
-                      <span className="textG" style={{color:"red"}}>You have {formatNumber(userAmount)},[RARE]<br/> need {formatNumber(400000-userAmount)} to [LEGENDARY].</span>
+                      <span className="textG" style={{color:"red"}}>You have {formatNumber(userAmount)},[RARE]<br/> need more {formatNumber(400000-userAmount)} to [LEGENDARY].</span>
                     )
                     : null 
                     }
-                    {userAmount<200000 &&(
+                    {userAmount<200000 && userAmount>=100000 &&(
                       <div style={{marginRight:"20px", width: "70%"}}>
-                      <span className="textG" style={{color:"gray"}}> You have {formatNumber(userAmount)},[COMMON]<br/>  need {formatNumber(200000-userAmount)} to [RARE]. </span>
+                      <span className="textG" style={{color:"gray"}}> You have {formatNumber(userAmount)},[COMMON]<br/>  need more {formatNumber(200000-userAmount)} to [RARE]. </span>
                       </div>
                       )}
-                      <button className="collect"  type="button" >Collect<br/>Sept 20</button>
+                      {userAmount<200000 &&(
+                        <div style={{marginRight:"20px", width: "70%"}}>
+                        <span className="textG" style={{color:"gray"}}> You have {formatNumber(userAmount)},<br/>  need more {formatNumber(100000-userAmount)} to [COMMON]. </span>
+                        </div>
+                        )}
+                      <button className="collect"  type="button" >🔒Collect </button>
                 </>
                   )
                 }

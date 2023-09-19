@@ -520,8 +520,8 @@ video {
 }
 .collect {
   border: none;
-  color:  white;
-  background-color: #0b613c; /* Define a cor do texto para ser a mesma que a do fundo */
+  color:  rgb(178, 178, 178);
+  background-color: #294135; /* Define a cor do texto para ser a mesma que a do fundo */
   padding: 10px 5px;
   margin-top: auto; /* Empurra o botão para a parte inferior */
   border-radius: 4px;
@@ -538,6 +538,8 @@ video {
   height: 25px;
   text-align: center;
   padding: 0%;
+  background-color: rgb(255, 200, 0);
+  cursor: pointer;
 }
 .popup2 {
   position: fixed;
