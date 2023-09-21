@@ -520,8 +520,8 @@ video {
 }
 .collect {
   border: none;
-  color:  rgb(197, 197, 197);
-  background-color: #1e4031; /* Define a cor do texto para ser a mesma que a do fundo */
+  color:  white;
+  background-color: #0b613c; /* Define a cor do texto para ser a mesma que a do fundo */
   padding: 10px 5px;
   margin-top: auto; /* Empurra o botão para a parte inferior */
   border-radius: 4px;
@@ -538,8 +538,6 @@ video {
   height: 25px;
   text-align: center;
   padding: 0%;
-  background-color:rgb(255, 183, 0);
-  cursor: pointer;
 }
 .popup2 {
   position: fixed;
@@ -561,6 +559,35 @@ video {
   height: 200px;  
   object-fit: cover;
   overflow: hidden; /* isso esconde qualquer parte do vídeo que ultrapasse os limites da div */
+  display: flex;
+  align-items:center;
+}
+.leftButton,
+.rightButton {
+  position: absolute;
+  top: 55%;
+  transform: translateY(-50%);
+  z-index: 10;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  background-size: cover; /* Isso fará com que a imagem cubra toda a área do cabeçalho */
+    background-repeat: no-repeat; /* Isso previne que a imagem seja repetida */
+    height: 35px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.leftButton {
+  background-image: url("/Anterior.png");
+  left: 3px; /* ou ajuste conforme necessário */
+  width: 20px;
+}
+
+.rightButton {
+  background-image: url("/Proximo.png");
+  right: 3px; /* ou ajuste conforme necessário */
+  width: 20px;
 }
 
 .videoTeste video {
