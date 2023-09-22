@@ -309,13 +309,7 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			}
-		],
+		"inputs": [],
 		"name": "safeMint",
 		"outputs": [
 			{

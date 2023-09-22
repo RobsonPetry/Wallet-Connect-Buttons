@@ -1,12 +1,14 @@
-import React, { useState,useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import axios from 'axios'; // Importe o Axios aqui
 import Web3 from 'web3';
 import StakingContractABI from "./StakingContractABI.json";
 import TokenContractABI from "./TokenContractABI.json"; 
 import contractABI from "./factory.json"; 
 import wbnbABI from "./wbnb.json"; 
 import BoxMintABI from "./BoxMintABI.json"; 
+import ContagemRegressiva from "./ContagemRegressiva"; 
 
-let index = 0;
+let index =0;
 const StakingFront = () => {
   
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -30,28 +32,28 @@ const StakingFront = () => {
   const [collection, setCollection] = useState([]);
   const videos = [
     "https://move-app.com/video/Common_2.mp4",
-    "https://move-app.com/video/RARE_1.mp4",
-    "https://move-app.com/video/Legendary_1.mp4",
+    "https://move-app.com/video/RARE_2.mp4",
+    "https://move-app.com/video/Legendary_2.mp4",
+    // Adicione mais URLs de vídeo conforme necessário
   ];
-  const [currentVideoIndex, setCurrentVideoIndex] = useState("https://move-app.com/video/Common_2.mp4");
+  const [currentVideo, setCurrentVideoIndex] = useState("https://move-app.com/video/Common_2.mp4");
   const videoRef = useRef();
-  
   useEffect(() => {
     if (videoRef.current) {
-      videoRef.current.src = currentVideoIndex;
+      videoRef.current.src = videos[index];
       videoRef.current.load();
     }
-  }, [currentVideoIndex]);
+  }, [index]);
 
   const goLeft = () => {
-    index = (index - 1 + videos.length) % videos.length;
+    index = (index-1+videos.length)% videos.length;
     setCurrentVideoIndex(videos[index]);
   };
 
   const goRight = () => {
     index = (index+1)% videos.length;
     setCurrentVideoIndex(videos[index]);
-    console.log(index+" / "+currentVideoIndex+" \n "+videos[index]);
+    console.log(index+" index "+videos[index] );
   };
 
   const initializeWeb3_2 = async () => {
@@ -106,6 +108,8 @@ const StakingFront = () => {
 
       const allowance = await tokenContract.methods.allowance(currentAccount, contract.options.address).call();
 
+
+      console.log(Amount+' decreaseAllowance allowance '+allowance);
       if (allowance!=0) {
         await tokenContract.methods.decreaseAllowance(contract.options.address, allowance).send({ 
           from: currentAccount, 
@@ -131,10 +135,10 @@ const StakingFront = () => {
     setIsApproveLoading(true);
 
     try {
-      const tokenAddress = "0x8d73bbCD6aC0CD918e9B2B5bF173a891966E0c5b"; // Substitua pelo endereço do contrato do token
+      const tokenAddress = "0x9E3CE1b7Ea3999983eCB65ee100dd4E86705EdD4"; // Substitua pelo endereço do contrato do token
       const tokenContract = new web3.eth.Contract(BoxMintABI, tokenAddress);
-      const mintFeeInWei = web3.utils.toWei('0.02', 'ether');
-      const id =  await tokenContract.methods.safeMint(currentAccount).send({ from: currentAccount, value: mintFeeInWei,
+      const mintFeeInWei = web3.utils.toWei('0.01', 'ether');
+      const id =  await tokenContract.methods.safeMint().send({ from: currentAccount, value: mintFeeInWei,
         gasPrice: web3.utils.toWei("3", 'gwei') });
 
       alert("Nft created successful");
@@ -148,9 +152,8 @@ const StakingFront = () => {
   }; 
   async function fetchIpfsData(ipfsUrl) {
     try {
-        const ipfsGateway = "https://gateway.pinata.cloud/ipfs/";
-        const cid = ipfsUrl.replace('ipfs://', '');
-        const response = await axios.get(ipfsGateway + cid);
+        console.log("fetchIpfsData "+ipfsUrl);
+        const response = await axios.get(ipfsUrl);
         return response.data;
     } catch (error) {
         console.error("Error fetching IPFS data:", error);
@@ -158,33 +161,38 @@ const StakingFront = () => {
     }
 }
   const GetNfts = async () => {
-    if (!currentAccount) {
-      return;
-    }
-
-
-    try {
-      const tokenAddress = "0x8d73bbCD6aC0CD918e9B2B5bF173a891966E0c5b"; // Substitua pelo endereço do contrato do token
-      const tokenContract = new web3.eth.Contract(BoxMintABI, tokenAddress);
-
-      const tokenCount = await tokenContract.methods.balanceOf(currentAccount).call();
-
-      let tokenURIs = [];
-      for(let i = 0; i < tokenCount; i++) {
-        
-        const tokenId = await tokenContract.methods.tokenOfOwnerByIndex(currentAccount, i).call();
-        const uri = await tokenContract.methods.tokenURI(tokenId).call();
-        var json = await fetchIpfsData(uri);
-        tokenURIs.push(json);
-      }   
-      setCollection(tokenURIs);
-    } catch (error) {
-      console.error('Error approving tokens:', error);
-    } finally {
-      console.log('approveTokens finally');
-      setIsApproveLoading(false);
-    }
-  }; 
+  if (!currentAccount) {
+    return;
+  }
+  try {
+    const tokenAddress = "0x9E3CE1b7Ea3999983eCB65ee100dd4E86705EdD4"; 
+    const tokenContract = new web3.eth.Contract(BoxMintABI, tokenAddress);
+    const tokenCount = await tokenContract.methods.balanceOf(currentAccount).call();
+    let tokenURIs = [];
+    for(let i = 0; i < tokenCount; i++) {        
+      const tokenId = await tokenContract.methods.tokenOfOwnerByIndex(currentAccount, i).call();
+      const uri = await tokenContract.methods.tokenURI(tokenId).call();
+      var json = await fetchIpfsData(uri);
+      console.log("tokenURIs "+json);
+      
+      // Checar se json.image é um URL IPFS válido
+      if (json.image && json.image.startsWith("ipfs://")) {
+        const imageUrl = json.image.replace("ipfs://", "https://ipfs.io/ipfs/");
+        const imageResponse = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+        const base64 = Buffer.from(imageResponse.data, 'binary').toString('base64');
+        json.image = `data:image/jpeg;base64,${base64}`;
+      }
+      
+      tokenURIs.push(json);
+    }   
+    setCollection(tokenURIs);
+  } catch (error) {
+    console.error('Error fetching NFT data:', error);
+  } finally {
+    console.log('GetNfts finally');
+    setIsApproveLoading(false);
+  }
+};
 
   const approveTokens = async () => {
     if (!contract || !currentAccount) {
@@ -200,6 +208,7 @@ const StakingFront = () => {
       const allowance = await tokenContract.methods.allowance(currentAccount, contract.options.address).call();
 
 
+      console.log(Amount+' Approval allowance '+allowance);
       if (allowance===0|| allowance < web3.utils.toWei(Amount.toString(), 'ether')) {
         await tokenContract.methods.approve(contract.options.address, web3.utils.toWei(Amount.toString(), 'ether')).send({ 
           from: currentAccount, 
@@ -253,6 +262,7 @@ if(pendingRewards<=0)
       
       const a =web3.utils.fromWei(reserves._reserve0, 'ether');
       const b = web3.utils.fromWei(reserves._reserve1, 'ether');
+      console.log((a/ b)+" a "+a+"\n b "+b);
       bnb = a/ b;
     } catch (error) {
       console.error('Erro ao buscar as reservas:', error);
@@ -266,6 +276,7 @@ if(pendingRewards<=0)
       const a =web3.utils.fromWei(reserves._reserve0, 'ether');
       const b = web3.utils.fromWei(reserves._reserve1, 'ether');
       const valueInBnb = (b / a)*bnb;
+      console.log(bnb+" valueInBnb "+(valueInBnb)+"\n "+a+"\n "+b);
       setBnbDol(valueInBnb);
     } catch (error) {
       console.error('Erro ao buscar as reservas:', error);
@@ -301,6 +312,7 @@ if(pendingRewards<=0)
       const tokenContract = new web3.eth.Contract(TokenContractABI, tokenAddress);
       const balance = await tokenContract.methods.balanceOf(currentAccount).call();
       setTokensCount(web3.utils.fromWei(balance.toString(), 'ether'));
+      GetNfts();
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -321,6 +333,7 @@ if(pendingRewards<=0)
       await contract.methods.deposit(amountInWei).send({ 
         from: currentAccount,
         gasPrice: web3.utils.toWei("3", 'gwei')});
+      console.log('Staking successful');
       alert("Stake success");
       updateData();
     } catch (error) {
@@ -418,6 +431,7 @@ if(pendingRewards<=0)
   };
 
   const handleOpenNftPopup = () => {
+    setShowCollection(false);
     setShowInfos(false);
     setNftPopupOpen(true);
   };
@@ -564,26 +578,27 @@ if(pendingRewards<=0)
                   <div>
                     <button className="closeButton" onClick={handleCloseNftPopup}>X</button>
                     <div style={{display: "flex", gap: "20px"}}>
-                    <div>Collect prize  </div>
+                    <div>Collection </div>
                     <button className="infos" onClick={handleShowInfos}  type="button" >?</button>
-                    <button className="infos" onClick={()=>setShowCollection(false)}  type="button" >Home</button>
+                    <button  onClick={()=>setShowCollection(false)}  type="button" >Prizes</button>
                   </div>
                   {                    
                     console.log("collection.length "+collection.length)
                   }
+                  <p style={{textAlign:"center"}}>Your collection.</p>
                   {
                   collection.length > 0 ? (
+                    
                     collection.map((item, index) => {
-                      console.log("teste"+item);
                       return (
-                          <div key={index}>
-                              <h3>{item.name}</h3>
-                              <img src={item.image} alt={`NFT ${index}: ${item.name}`} />
-                          </div>
+                        <div key={index} style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                          <img style={{height:"55px", width:"55px"}} src={item.image} alt={`NFT ${index}: ${item.name}`} />
+                          {item.name}
+                        </div>
                       );
-                  })
+                    })
                 ) : (
-                  <p>Nenhum NFT disponível na coleção.</p>
+                  <p style={{textAlign:"center"}}>No NFT available in the collection.</p>
                 )}
                 </div>
                 ):(
@@ -592,7 +607,7 @@ if(pendingRewards<=0)
                   <div style={{display: "flex", gap: "20px"}}>
                   <div>Collect prize  </div>
                   <button className="infos" onClick={handleShowInfos}  type="button" >?</button>
-                    <button className="infos" onClick={()=>{GetNfts(); setShowCollection(true); } }  type="button" >Collection</button>
+                    <button onClick={()=>{GetNfts(); setShowCollection(true); } }  type="button" >Collection</button>
                   </div>
                     <div style={{ height: '10px' }}></div> {/* Espaço */}                    
                     <div className="videoTeste">
@@ -601,14 +616,13 @@ if(pendingRewards<=0)
                       ref={videoRef}
                       onClick={(e) => e.currentTarget.play()} 
                       autoplay="true" 
-                      loop
+                      loop 
                       muted 
                       playsinline 
                       preload="auto"
                     >
-                      {console.log("video "+currentVideoIndex)}
-                        <source src={currentVideoIndex} type="video/mp4" /> {/* Note o "/" no final */}
-                        Seu navegador não suporta o elemento de vídeo.
+                        <source src={currentVideo} type="video/mp4" /> {/* Note o "/" no final */}
+                        Seu navegador não suporta o elemento de vídeo. 
                       </video>
                       <button className="rightButton" onClick={goRight}></button>
                     </div>
@@ -641,7 +655,8 @@ if(pendingRewards<=0)
                       </div>
                       ):null}
 
-                      <button className="collect" onClick={MintNft} type="button" >Collect 🔒</button>
+                      <button className="collect" onClick={MintNft} type="button" >Collect <br/><span style={{fontSize:"10px"}}>end in, <ContagemRegressiva /></span></button>
+                      
                       </>
                 )
               }
