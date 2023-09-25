@@ -7,6 +7,7 @@ import contractABI from "./factory.json";
 import wbnbABI from "./wbnb.json"; 
 import BoxMintABI from "./BoxMintABI.json"; 
 import ContagemRegressiva from "./ContagemRegressiva"; 
+import ImageModal from "./ImageModal"; 
 
 let index =0;
 const StakingFront = () => {
@@ -38,6 +39,11 @@ const StakingFront = () => {
   ];
   const [currentVideo, setCurrentVideoIndex] = useState("https://move-app.com/video/Common_2.mp4");
   const videoRef = useRef();
+  const imageModalRef = useRef();
+
+  const handleOpenModal = () => {
+    imageModalRef.current.openModal();
+  };
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.src = videos[index];
@@ -177,12 +183,12 @@ const StakingFront = () => {
       
       // Checar se json.image é um URL IPFS válido
       if (json.image && json.image.startsWith("ipfs://")) {
-        const imageUrl = json.image.replace("ipfs://", "https://ipfs.io/ipfs/");
+        const imageUrl = json.image.replace("ipfs://", "https://gateway.pinata.cloud/ipfs/");
         const imageResponse = await axios.get(imageUrl, { responseType: 'arraybuffer' });
         const base64 = Buffer.from(imageResponse.data, 'binary').toString('base64');
         json.image = `data:image/jpeg;base64,${base64}`;
       }
-      
+      json.tokenId = tokenId;
       tokenURIs.push(json);
     }   
     setCollection(tokenURIs);
@@ -588,15 +594,26 @@ if(pendingRewards<=0)
                   <p style={{textAlign:"center"}}>Your collection.</p>
                   {
                   collection.length > 0 ? (
-                    
-                    collection.map((item, index) => {
+                    <>
+                    {collection.map((item, index) => {
                       return (
                         <div key={index} style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                          #{item.tokenId}
                           <img style={{height:"55px", width:"55px"}} src={item.image} alt={`NFT ${index}: ${item.name}`} />
                           {item.name}
                         </div>
                       );
-                    })
+                    })}
+                    <div>
+                      <button onClick={handleOpenModal} style={{
+    position: 'fixed', // use 'absolute' if you have a relative container
+    bottom: 10,
+    left: '50%',
+    transform: 'translateX(-50%)',
+  }}>Import Exemple</button>
+                      <ImageModal ref={imageModalRef} />
+                    </div>
+                  </>
                 ) : (
                   <p style={{textAlign:"center"}}>No NFT available in the collection.</p>
                 )}
@@ -607,7 +624,10 @@ if(pendingRewards<=0)
                   <div style={{display: "flex", gap: "20px"}}>
                   <div>Collect prize  </div>
                   <button className="infos" onClick={handleShowInfos}  type="button" >?</button>
-                    <button onClick={()=>{GetNfts(); setShowCollection(true); } }  type="button" >Collection</button>
+                  
+                      <button onClick={() =>{GetNfts(); setShowCollection(true); }} type="button">Collection</button>
+                                    
+                  
                   </div>
                     <div style={{ height: '10px' }}></div> {/* Espaço */}                    
                     <div className="videoTeste">
@@ -627,8 +647,11 @@ if(pendingRewards<=0)
                       <button className="rightButton" onClick={goRight}></button>
                     </div>
                     <div style={{ height: '30px' }}></div>
+                    {/*collection.length == 0 && (
+
+                    <>
                     
-                    {userAmount>1000000 &&(
+                    { userAmount>1000000 &&(
                         <div style={{marginRight:"20px", width: "70%"}}>
                         <span className="textG" style={{color:"gray"}}> You have {formatNumber(userAmount)},[LEGENDARY+RARE] </span>
                         </div>
@@ -654,16 +677,14 @@ if(pendingRewards<=0)
                       <span className="textG" style={{color:"gray"}}> You have {formatNumber(userAmount)}, <br/>  need {formatNumber(100000-userAmount)} to [COMMON]. </span>
                       </div>
                       ):null}
-
-                      <button className="collect" onClick={MintNft} type="button" >Collect <br/><span style={{fontSize:"10px"}}>end in, <ContagemRegressiva /></span></button>
-                      
+                    </>
+                    )*/}
+                    
                       </>
-                )
-              }
+                )}
                 
               </>
-                )
-              }
+                )}
               
               
             </div>

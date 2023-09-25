@@ -21,7 +21,7 @@ function ContagemRegressiva() {
     const agora = new Date();
     const ano = agora.getFullYear();
     const mes = agora.getMonth();
-    const dataFinal = new Date(ano, mes, 24);
+    const dataFinal = new Date(ano, mes, 25);
     const diferenca = dataFinal - agora;
     return diferenca > 0 ? diferenca : 0;
   }
